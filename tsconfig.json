@@ -1,0 +1,13 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".", // This sets the base for resolving non-relative module names
+    "paths": {
+      "@/*": ["src/*"] // Example alias: "~" maps to the "src" directory
+    }
+  }
+}

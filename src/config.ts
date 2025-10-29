@@ -1,0 +1,5 @@
+const metaENV = import.meta.env;
+export const ENV = {
+  YOUTUBE_API_KEY: metaENV.VITE_YOUTUBE_API_KEY,
+  YOUTUBE_BASE_URL: metaENV.VITE_YOUTUBE_BASE_URL,
+};
