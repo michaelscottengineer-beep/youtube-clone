@@ -11,6 +11,9 @@ import WatchPage from "./pages/watch/WatchPage.tsx";
 import searchLoader from "./pages/search/searchLoader.ts";
 import watchLoader from "./pages/watch/watchLoader.ts";
 import homeLoader from "./pages/home/homeLoader.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import { Toaster } from "./components/ui/sonner.tsx";
+import AuthProvider from "./contexts/auth.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,19 +28,26 @@ const router = createBrowserRouter([
       {
         path: "/results",
         element: <SearchPage />,
-        loader: searchLoader
+        loader: searchLoader,
       },
       {
         path: "/watch",
         element: <WatchPage />,
-        loader: watchLoader
+        loader: watchLoader,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+      <Toaster />
+    </AuthProvider>
   </StrictMode>
 );

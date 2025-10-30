@@ -31,7 +31,6 @@ export default async function watchLoader({
   if (videos.length > 0) {
     const video = videos[0];
 
-    const videoCategoryId = video.categoryId;
     const { videos: relatedVideos } = await searchVideos(video.title  + "|" + video?.tags?.join('|'), {
       // relatedToVideoId: videoId,
     });
@@ -39,6 +38,7 @@ export default async function watchLoader({
 
     const { commentThreads } = await getCommentThreads({
       videoId,
+      channelId: video.channelId,
       order: "relevance",
     });
     return {

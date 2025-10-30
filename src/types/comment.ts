@@ -16,6 +16,7 @@ export type TComment = {
   moderationStatus: string;
   publishedAt: string;
   updatedAt: string;
+  videoId: string
 };
 
 export type TCommentThread = {

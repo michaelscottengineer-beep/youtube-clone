@@ -125,7 +125,7 @@ const VideoCard = ({
             </h2>
           </div>
 
-          <CommentForm userAvatarUrl={video.channel.thumbnails.medium.url} />
+          <CommentForm videoId={video.id} channelId={video.channelId} />
           <ListComment commentThreads={commentThreads} />
         </div>
       )}
@@ -170,7 +170,7 @@ const VideoCardContent = ({
             </h2>
           </div>
 
-          <CommentForm userAvatarUrl={video.channel.thumbnails.medium.url} />
+          <CommentForm channelId={video.channelId} videoId={video.id}  />
           <ListComment commentThreads={commentThreads} />
         </div>
       )}

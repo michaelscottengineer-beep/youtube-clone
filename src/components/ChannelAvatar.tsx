@@ -35,7 +35,7 @@ const ChannelAvatar = ({
   return (
     <Wrapper to={`/${channelId}`} className="avatar">
       <img
-        src={avatarUrl}
+        src={avatarUrl ? avatarUrl : "/user-avatar-temp.jpg"}
         alt="author-comment-avatar"
         referrerPolicy="no-referrer"
         crossOrigin="anonymous"

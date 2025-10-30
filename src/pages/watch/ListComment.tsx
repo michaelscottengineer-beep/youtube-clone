@@ -64,7 +64,9 @@ const CommentCard = ({ comment, topLevel }: CommentCardProps) => {
 
           {isShowReplyForm && (
             <CommentForm
-              userAvatarUrl="/vite.svg"
+              channelId={comment.channelId}
+              parentId={comment.parentId ?? comment.id}
+              videoId={comment.videoId}
               onCancelCallback={() => setIsShowReplyForm(false)}
             />
           )}
@@ -87,7 +89,7 @@ interface ListReplyProps {
 const ListReply = ({ totalReplyCount, replies }: ListReplyProps) => {
   const [isShowReplies, setIsShowReplies] = useState(false);
   if (totalReplyCount === 0) return null;
-  
+
   return (
     <div>
       <Button

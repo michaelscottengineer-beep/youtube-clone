@@ -3,18 +3,34 @@ import { FaRegSmileBeam } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import ChannelAvatar from "@/components/ChannelAvatar";
+import createComment from "@/api/queries/createComment";
+import useAuth from "@/hooks/use-auth";
 
 interface CommentFormProps {
-  userAvatarUrl?: string;
+  channelId: string;
+  videoId: string;
+  parentId?: string;
   onCancelCallback?: () => void;
 }
 
-const CommentForm = ({ userAvatarUrl, onCancelCallback }: CommentFormProps) => {
+const CommentForm = ({
+  channelId,
+  videoId,
+  parentId,
+  onCancelCallback,
+}: CommentFormProps) => {
+  const { user } = useAuth();
   const [comment, setComment] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("comment = ", comment);
+    await createComment({
+      comment,
+      channelId,
+      videoId,
+      parentId,
+    });
   };
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +46,7 @@ const CommentForm = ({ userAvatarUrl, onCancelCallback }: CommentFormProps) => {
       onSubmit={handleSubmit}
       className="comment-form flex gap-2 items-start w-full"
     >
-      <ChannelAvatar />
+      <ChannelAvatar avatarUrl={user?.avatar} />
 
       <div className="flex flex-col gap-1 flex-1">
         <Input
@@ -51,7 +67,7 @@ const CommentForm = ({ userAvatarUrl, onCancelCallback }: CommentFormProps) => {
             >
               Hủy
             </Button>
-            <Button className="rounded-full" disabled>
+            <Button className="rounded-full" disabled={comment.length == 0} type="submit">
               Bình luận
             </Button>
           </div>
