@@ -64,7 +64,7 @@ export const nodeServerAuthApi = {
       ...config,
     });
 
-    if (res.statusText === "OK") return res.data as T;
+    if (res.statusText === "OK") return res.data.data as T;
 
     throw new Error("auth : post failed ");
   },

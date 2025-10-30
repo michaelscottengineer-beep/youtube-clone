@@ -27,6 +27,10 @@ export type TVideo = {
   player: {
     embedHtml: string;
   };
+  myRating: {
+    like: boolean;
+    dislike: boolean;
+  };
   publishedAt: string; // ISO datetime string
   duration: string; // ISO 8601 duration format (e.g. "PT5M12S")
   topicDetails: {

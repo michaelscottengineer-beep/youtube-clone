@@ -1,4 +1,4 @@
-import { axiosApi } from "@/lib/axiosInstance";
+import { axiosApi, nodeServerAuthApi } from "@/lib/axiosInstance";
 import type { TVideo } from "@/types/video";
 import getChannels from "./getChannels";
 import { MAX_RESULTS } from "@/constants";
@@ -22,6 +22,12 @@ export default async function getVideos(
   const promise = resVideos.data.items.map(async (video: any) => {
     const { snippet } = video;
     const channels = await getChannels([snippet.channelId]);
+    const myRating = await nodeServerAuthApi.get('my-rating/state', {
+      params: {
+        itemId: video.id
+      }
+    });
+
     return {
       id: video.id,
       ...snippet,
@@ -29,11 +35,13 @@ export default async function getVideos(
       statistics: video.statistics,
       channel: channels[0],
       player: video.player,
+      myRating
     } as TVideo;
   });
 
   const videos = await Promise.all(promise);
 
+  console.log(videos, 'zzz')
   return {
     videos,
   };
