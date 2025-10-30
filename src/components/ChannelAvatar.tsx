@@ -39,7 +39,7 @@ const ChannelAvatar = ({
         alt="author-comment-avatar"
         referrerPolicy="no-referrer"
         crossOrigin="anonymous"
-        className={cn(channelAvatarVariants({ size }), className)}
+        className={cn(channelAvatarVariants({ size, className }), )}
       />
     </Wrapper>
   );

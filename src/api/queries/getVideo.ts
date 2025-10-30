@@ -15,11 +15,9 @@ export default async function getVideos(
     params: {
       ...searchParams,
       part: "statistics,snippet,contentDetails,player,topicDetails",
-      maxResults: MAX_RESULTS.DIV_4
+      maxResults: MAX_RESULTS.DIV_4,
     },
   });
-
-  console.log("res videos", resVideos);
 
   const promise = resVideos.data.items.map(async (video: any) => {
     const { snippet } = video;

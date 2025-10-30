@@ -15,6 +15,7 @@ export default async function getChannels(channelIds: string[], params?: any) {
   const channels = res.data.items.map((item: any) => {
     const { snippet } = item;
     return {
+      id: item.id,
       thumbnails: snippet.thumbnails,
       title: snippet.title,
       statistics: item.statistics,

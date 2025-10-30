@@ -6,6 +6,8 @@ import type { TVideoCategory } from "@/types/videoCategory";
 import type { TVideo } from "@/types/video";
 import { formatDistanceToNow } from "date-fns";
 import { vi } from "date-fns/locale";
+import ChannelAvatar from "@/components/ChannelAvatar";
+import { VideoTitle } from "@/components/Video";
 
 const ListCategory = ({ categories }: { categories: TVideoCategory[] }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -13,7 +15,7 @@ const ListCategory = ({ categories }: { categories: TVideoCategory[] }) => {
   return (
     <div className="flex items-center gap-4 max-w-full overflow-x-auto ">
       <div>
-        <Button variant={activeIndex === 0 ? "default" : "secondary"}>
+        <Button variant={activeIndex === 0 ? "default" : "secondary"} onClick={() => setActiveIndex(0)}>
           Tất cả
         </Button>
       </div>
@@ -52,16 +54,14 @@ const ListVideoHomePage = ({ videos }: { videos: TVideo[] }) => {
               />
             </div>
             <div className="info flex gap-3 py-2 items-start">
-              <div className="avatar">
-                <img
-                  src={video.channel.thumbnails.medium.url}
-                  className="w-8 h-8 rounded-full"
-                  alt="channel avatar"
-                />
-              </div>
-              <div className="div flex-1">
-                <h4 className="font-medium line-clamp-2">{video.title}</h4>
-                <div className="text-gray-500">{video.channel.title}</div>
+              <ChannelAvatar
+                avatarUrl={video.channel.thumbnails.medium.url}
+                channelId={video.channelId}
+                size={'sm'}
+              />
+              <div className="div flex-1 space-y-1">
+                <VideoTitle className="text-sm">{video.title}</VideoTitle>
+                <div className="text-gray-500 text-sm">{video.channel.title}</div>
                 <div className="videoInfo flex items-center gap-1 text-xs text-gray-500">
                   <div>{video.statistics?.viewCount} lượt xem</div>
                   <div className="dot bg-gray-500 w-1 h-1 rounded-full"></div>

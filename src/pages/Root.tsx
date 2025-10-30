@@ -7,7 +7,7 @@ const Root = () => {
   return (
     <div>
       <Header />
-      <div>
+      <div className="py-4">
      
         <div>
           <Outlet />
