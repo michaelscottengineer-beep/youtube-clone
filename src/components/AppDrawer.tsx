@@ -1,15 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Home, Menu, Save } from "lucide-react";
+import { BookMarkedIcon, Home, Menu, Save } from "lucide-react";
+import { FaBookmark } from "react-icons/fa";
+import { SiYoutubeshorts } from "react-icons/si";
 
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -34,14 +34,14 @@ const data: TDrawerTab[] = [
     addonIcon: null,
   },
   {
-    icon: Home,
+    icon: SiYoutubeshorts,
     label: "Shorts",
     type: "category",
-    goTo: "/123",
+    goTo: "/shorts",
     addonIcon: null,
   },
     {
-    icon: Save,
+    icon: FaBookmark,
     label: "Video đã lưu",
     type: "",
     goTo: "/saved",
