@@ -30,6 +30,7 @@ export type TVideo = {
   myRating: {
     like: boolean;
     dislike: boolean;
+    isSaved: boolean;
   };
   publishedAt: string; // ISO datetime string
   duration: string; // ISO 8601 duration format (e.g. "PT5M12S")

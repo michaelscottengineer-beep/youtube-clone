@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Home, Menu } from "lucide-react";
+import { Home, Menu, Save } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -38,6 +38,13 @@ const data: TDrawerTab[] = [
     label: "Shorts",
     type: "category",
     goTo: "/123",
+    addonIcon: null,
+  },
+    {
+    icon: Save,
+    label: "Video đã lưu",
+    type: "",
+    goTo: "/saved",
     addonIcon: null,
   },
 ];

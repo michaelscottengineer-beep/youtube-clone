@@ -5,6 +5,7 @@ import { useState } from "react";
 import ChannelAvatar from "@/components/ChannelAvatar";
 import createComment from "@/api/queries/createComment";
 import useAuth from "@/hooks/use-auth";
+import { useRevalidator } from "react-router";
 
 interface CommentFormProps {
   channelId: string;
@@ -21,6 +22,7 @@ const CommentForm = ({
 }: CommentFormProps) => {
   const { user } = useAuth();
   const [comment, setComment] = useState("");
+  const revalidator = useRevalidator();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +33,8 @@ const CommentForm = ({
       videoId,
       parentId,
     });
+    setComment("");
+    revalidator.revalidate();
   };
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +45,8 @@ const CommentForm = ({
     onCancelCallback?.();
   };
 
+  if (!user) return null;
+  
   return (
     <form
       onSubmit={handleSubmit}
@@ -67,7 +73,11 @@ const CommentForm = ({
             >
               Hủy
             </Button>
-            <Button className="rounded-full" disabled={comment.length == 0} type="submit">
+            <Button
+              className="rounded-full"
+              disabled={comment.length == 0}
+              type="submit"
+            >
               Bình luận
             </Button>
           </div>

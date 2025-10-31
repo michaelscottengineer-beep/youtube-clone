@@ -14,6 +14,8 @@ import homeLoader from "./pages/home/homeLoader.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import { Toaster } from "./components/ui/sonner.tsx";
 import AuthProvider from "./contexts/auth.tsx";
+import SavedVideoPage from "./pages/savedVideo/SavedVideoPage.tsx";
+import savedVideoLoader from "./pages/savedVideo/savedVideosLoader.ts";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,11 @@ const router = createBrowserRouter([
         path: "/watch",
         element: <WatchPage />,
         loader: watchLoader,
+      },
+      {
+        path: "/saved",
+        element: <SavedVideoPage />,
+        loader: savedVideoLoader,
       },
     ],
   },

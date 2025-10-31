@@ -1,6 +1,7 @@
 import { ENV } from "@/config";
 import type { TLocale } from "@/types/locale";
 import axios, { type AxiosRequestConfig } from "axios";
+import { Navigate } from "react-router";
 
 console.log(ENV.YOUTUBE_BASE_URL);
 const instance = axios.create({
@@ -55,8 +56,9 @@ export const nodeServerApi = {
 export const nodeServerAuthApi = {
   post: async function <T>(url: string, config?: AxiosRequestConfig) {
     const token = localStorage.getItem("token");
+
     if (!token) {
-      window.history.pushState({}, "", "/login");
+      window.location.href = "/login";
       return null;
     }
 
@@ -64,14 +66,17 @@ export const nodeServerAuthApi = {
       ...config,
     });
 
-    if (res.statusText === "OK") return res.data.data as T;
+    console.log(res);
+
+    if (res.data.data !== null) return res.data.data as T;
 
     throw new Error("auth : post failed ");
   },
   get: async function <T>(url: string, config?: AxiosRequestConfig) {
     const token = localStorage.getItem("token");
     if (!token) {
-      window.history.pushState({}, "", "/login");
+      window.location.href = "/login";
+
       return null;
     }
 
@@ -79,8 +84,8 @@ export const nodeServerAuthApi = {
       ...config,
     });
 
-    if (res.statusText === "OK") return res.data.data as T;
+    if (res.data.data !== null) return res.data.data as T;
 
-    throw new Error("auth : post failed ");
+    throw new Error("auth : get failed ");
   },
 };

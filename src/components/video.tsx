@@ -26,11 +26,15 @@ const VideoProvider = ({ video, children }: VideoProviderProps) => {
   );
 };
 
-const useVideoContext = () => {
+function useVideoContext () {
   const context = useContext(VideoContext);
+  if (!context) {
+    throw new Error("useSidebar must be used within a SidebarProvider.")
+  }
 
   return context;
 };
+
 
 interface VideoTitleProps extends React.ComponentProps<"div"> {}
 
@@ -80,6 +84,10 @@ const VideoFrame = ({ id, className }: VideoFrameProps) => {
 
 const VideoCardVariants = cva("w-full", {
   variants: {
+    variant: {
+      default: "",
+      saved: "" ,
+    },
     size: {
       default: "grid grid-cols-4 gap-4",
       sm: "grid grid-cols-1 gap-4",
@@ -102,6 +110,7 @@ const VideoCard = ({
   commentThreads,
   className,
   size,
+  variant = 'default'
 }: VideoCardProps) => {
   return (
     <div className={cn(VideoCardVariants({ size, className }))}>

@@ -1,13 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
-import { SlDislike, SlLike } from "react-icons/sl";
 import { FaShare } from "react-icons/fa";
 import { MoreHorizontalIcon } from "lucide-react";
 import type { TVideo } from "@/types/video";
 import { nodeServerAuthApi } from "@/lib/axiosInstance";
 import { useState } from "react";
-import { AiFillLike, AiFillDislike, AiOutlineDislike , AiOutlineLike } from "react-icons/ai";
+import {
+  AiFillLike,
+  AiFillDislike,
+  AiOutlineDislike,
+  AiOutlineLike,
+} from "react-icons/ai";
 
+import { FaRegBookmark } from "react-icons/fa6";
 
 interface VideoActionButtonsProps {
   video: TVideo;
@@ -33,6 +38,7 @@ const VideoActionButtons = ({ video }: VideoActionButtonsProps) => {
     setMyRating({ ...myRating, like: value === 1, dislike: value === 0 });
   };
 
+  // get all hay get 1
   return (
     <div className="actions">
       <ButtonGroup>
@@ -51,7 +57,7 @@ const VideoActionButtons = ({ video }: VideoActionButtonsProps) => {
             className="rounded-full"
             onClick={handleToggleDislikeClick}
           >
-           {myRating.dislike ? <AiFillDislike /> : <AiOutlineDislike />}
+            {myRating.dislike ? <AiFillDislike /> : <AiOutlineDislike />}
           </Button>
         </ButtonGroup>
 
@@ -63,17 +69,59 @@ const VideoActionButtons = ({ video }: VideoActionButtonsProps) => {
         </ButtonGroup>
 
         <ButtonGroup>
-          <Button
-            variant="outline"
-            size="icon"
-            aria-label="More Options"
-            className="rounded-full"
-          >
-            <MoreHorizontalIcon />
-          </Button>
+          <MoreButton />
         </ButtonGroup>
       </ButtonGroup>
     </div>
+  );
+};
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import PlaylistDialog from "@/components/PLaylistDialog";
+
+const MoreButton = () => {
+  const [isOpenSaveDialog, setIsOpenSaveDialog] = useState(false);
+
+  return (
+    <>
+      <ButtonGroup>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            className="cursor-pointer focus-visible:outline-none"
+            asChild
+          >
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="More Options"
+              className="rounded-full"
+            >
+              <MoreHorizontalIcon />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-40 mr-4"
+            align="start"
+            sideOffset={-1}
+          >
+            <DropdownMenuItem onClick={() => setIsOpenSaveDialog(true)}>
+              <FaRegBookmark />
+              Lưu
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </ButtonGroup>
+
+      <PlaylistDialog
+        isOpen={isOpenSaveDialog}
+        onOpenChange={setIsOpenSaveDialog}
+      />
+    </>
   );
 };
 
