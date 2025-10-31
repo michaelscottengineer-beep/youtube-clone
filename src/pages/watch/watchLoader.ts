@@ -49,10 +49,14 @@ export default async function watchLoader({
     });
 
     const listId = searchParams.get("list");
-    const playlist = await nodeServerAuthApi.get<TPlaylist>(
-      "playlists/" + listId
-    );
-    const { videos: playlistvideos } = await getVideos(playlist?.videoIds);
+    let playlistvideos: TVideo[] = [];
+    let playlist = null;
+    
+    if (listId) {
+      playlist = await nodeServerAuthApi.get<TPlaylist>("playlists/" + listId);
+      const { videos } = await getVideos(playlist?.videoIds);
+      playlistvideos = videos;
+    }
 
     return {
       commentThreads,

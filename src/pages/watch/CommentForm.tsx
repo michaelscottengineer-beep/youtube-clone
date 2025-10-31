@@ -50,7 +50,7 @@ const CommentForm = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="comment-form flex gap-2 items-start w-full"
+      className="comment-form flex gap-2 my-2 items-start w-full"
     >
       <ChannelAvatar avatarUrl={user?.avatar} />
 

@@ -88,4 +88,20 @@ export const nodeServerAuthApi = {
 
     throw new Error("auth : get failed ");
   },
+  delete: async function <T>(url: string, config?: AxiosRequestConfig) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+
+      return null;
+    }
+
+    const res = await instanceNodeServer.delete(url, {
+      ...config,
+    });
+
+    if (res.data.data !== null) return res.data.data as T;
+
+    throw new Error("auth : delete failed ");
+  },
 };

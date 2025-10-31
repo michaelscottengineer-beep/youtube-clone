@@ -4,7 +4,7 @@ import { FaShare } from "react-icons/fa";
 import { MoreHorizontalIcon } from "lucide-react";
 import type { TVideo } from "@/types/video";
 import { nodeServerAuthApi } from "@/lib/axiosInstance";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AiFillLike,
   AiFillDislike,
@@ -20,45 +20,50 @@ interface VideoActionButtonsProps {
 
 const VideoActionButtons = ({ video }: VideoActionButtonsProps) => {
   const [myRating, setMyRating] = useState(video.myRating);
-  const handleToggleLikeClick = async () => {
-    const value = await nodeServerAuthApi.post<number>("my-rating/like", {
-      data: {
-        itemId: video.id,
-      },
-    });
+
+  const handleToggleClick =  (value: number) => {
     setMyRating({ ...myRating, like: value === 1, dislike: value === 0 });
   };
 
-  const handleToggleDislikeClick = async () => {
-    const value = await nodeServerAuthApi.post<number>("my-rating/dislike", {
-      data: {
-        itemId: video.id,
-      },
-    });
-    setMyRating({ ...myRating, like: value === 1, dislike: value === 0 });
-  };
 
+  console.log(myRating)
   // get all hay get 1
   return (
     <div className="actions">
       <ButtonGroup>
         <ButtonGroup>
-          <Button
+          {/* <Button
             variant="outline"
             className="rounded-full"
             onClick={handleToggleLikeClick}
           >
             {myRating.like ? <AiFillLike /> : <AiOutlineLike />}
             <div>{video.statistics?.likeCount}</div>
-          </Button>
-          <Button
+          </Button> */}
+          <VoteButton
+            itemId={video.id}
+            variant="like"
+            defaultValue={myRating.like}
+            count={Number(video.statistics?.likeCount)}
+            onClickCallback={handleToggleClick}
+          />
+
+          {/* <Button
             variant="outline"
             size={"icon"}
             className="rounded-full"
             onClick={handleToggleDislikeClick}
           >
             {myRating.dislike ? <AiFillDislike /> : <AiOutlineDislike />}
-          </Button>
+          </Button> */}
+
+          <VoteButton
+            itemId={video.id}
+            variant="dislike"
+            defaultValue={myRating.dislike}
+            count={Number(video.statistics?.likeCount)}
+            onClickCallback={handleToggleClick}
+          />
         </ButtonGroup>
 
         <ButtonGroup>
@@ -83,6 +88,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import PlaylistDialog from "@/components/PLaylistDialog";
+import VoteButton from "@/components/VoteButton";
 
 const MoreButton = () => {
   const [isOpenSaveDialog, setIsOpenSaveDialog] = useState(false);

@@ -29,6 +29,17 @@ const ListComment = ({
   );
 };
 
+import { BsThreeDotsVertical } from "react-icons/bs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { nodeServerAuthApi } from "@/lib/axiosInstance";
+import { cn } from "@/lib/utils";
 interface CommentCardProps {
   comment: TComment;
 
@@ -37,11 +48,30 @@ interface CommentCardProps {
     replies: TComment[];
   };
 }
+
 const CommentCard = ({ comment, topLevel }: CommentCardProps) => {
   const [isShowReplyForm, setIsShowReplyForm] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  const handleDeleteClick = async () => {
+    await nodeServerAuthApi
+      .delete("comments/" + comment.id, {
+        data: {
+          videoId: comment.videoId,
+          channelId: comment.channelId,
+          parentId: comment.parentId,
+        },
+      })
+      .then(() => {
+        setIsDeleted(true);
+      });
+  };
 
   return (
-    <div key={comment.id} className="flex items-start gap-4">
+    <div
+      key={comment.id}
+      className={cn("flex items-start gap-4", isDeleted && "hidden")}
+    >
       <ChannelAvatar
         channelId={comment.authorChannelId.value}
         avatarUrl={comment.authorProfileImageUrl}
@@ -49,7 +79,24 @@ const CommentCard = ({ comment, topLevel }: CommentCardProps) => {
 
       <div className="self-center box-content flex-1">
         <div className="comment-info flex flex-col items-start justify-start">
-          <h4 className="font-semibold text-sm">{comment.authorDisplayName}</h4>
+          <div className="flex justify-between items-center w-full">
+            <h4 className="font-semibold text-sm">
+              {comment.authorDisplayName}
+            </h4>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="ml-auto block" variant={"ghost"}>
+                  <BsThreeDotsVertical />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={handleDeleteClick}>
+                  Xóa
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
           <div
             dangerouslySetInnerHTML={{
               __html: comment.textDisplay,
@@ -58,6 +105,11 @@ const CommentCard = ({ comment, topLevel }: CommentCardProps) => {
           ></div>
 
           <CommentActionButtons
+            itemId={comment.id}
+            defaultMyRating={{
+              dislike: !!comment?.myRating?.dislike,
+              like: !!comment?.myRating?.like,
+            }}
             likeCount={comment.likeCount}
             onReplyClickCallback={() => setIsShowReplyForm(true)}
           />

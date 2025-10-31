@@ -16,7 +16,11 @@ export type TComment = {
   moderationStatus: string;
   publishedAt: string;
   updatedAt: string;
-  videoId: string
+  videoId: string;
+  myRating: {
+    like: boolean;
+    dislike: boolean;
+  };
 };
 
 export type TCommentThread = {

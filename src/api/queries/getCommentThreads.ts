@@ -47,6 +47,7 @@ export default async function getCommentThreads(
     } as TCommentThread;
   });
 
+
   return {
     commentThreads: commentsFromNodeServer ? [...commentsFromNodeServer, ...commentThreads] : [commentThreads],
   };
