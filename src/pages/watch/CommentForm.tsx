@@ -59,6 +59,7 @@ const CommentForm = ({
           placeholder="Viết bình luận"
           className="border-b border-b-gray-500 outline-none focus:border-b-2 focus:border-b-gray-700"
           onChange={handleChangeComment}
+          value={comment}
         />
         <div className="actions flex justify-between items-center">
           <Button size={"icon"} variant={"ghost"}>

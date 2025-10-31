@@ -40,6 +40,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { nodeServerAuthApi } from "@/lib/axiosInstance";
 import { cn } from "@/lib/utils";
+import useAuth from "@/hooks/use-auth";
 interface CommentCardProps {
   comment: TComment;
 
@@ -50,6 +51,7 @@ interface CommentCardProps {
 }
 
 const CommentCard = ({ comment, topLevel }: CommentCardProps) => {
+  const { user } = useAuth();
   const [isShowReplyForm, setIsShowReplyForm] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
@@ -84,18 +86,20 @@ const CommentCard = ({ comment, topLevel }: CommentCardProps) => {
               {comment.authorDisplayName}
             </h4>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="ml-auto block" variant={"ghost"}>
-                  <BsThreeDotsVertical />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={handleDeleteClick}>
-                  Xóa
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {user?.id === comment.authorChannelId.value && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="ml-auto block" variant={"ghost"}>
+                    <BsThreeDotsVertical />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={handleDeleteClick}>
+                    Xóa
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
           <div
             dangerouslySetInnerHTML={{

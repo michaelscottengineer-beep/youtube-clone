@@ -25,7 +25,7 @@ const VideoCard = ({ video }: VideoCardProps) => {
   const [isMouseEnter, setIsMouseEnter] = useState(false);
 
   return (
-    <div className="flex items-start gap-4">
+    <div className="flex items-start gap-4 px-20">
       <div className="thumbnail hover:cursor-pointer ">
         <img
           src={video.thumbnails.medium.url}

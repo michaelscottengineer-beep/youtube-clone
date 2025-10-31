@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Link, useLoaderData } from "react-router";
+import {
+  Link,
+  useLoaderData,
+  useNavigate,
+  useRevalidator,
+  useSearchParams,
+} from "react-router";
 import type { HomeLoaderResponse } from "./homeLoader";
 import { Button } from "@/components/ui/button";
 import type { TVideoCategory } from "@/types/videoCategory";
@@ -10,12 +16,26 @@ import ChannelAvatar from "@/components/ChannelAvatar";
 import { VideoTitle } from "@/components/Video";
 
 const ListCategory = ({ categories }: { categories: TVideoCategory[] }) => {
+  const [search] = useSearchParams();
+  const cateId = search.get("cateId");
   const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+
+  const revalidator = useRevalidator();
+
+  const handleClick = (cateId: string, index: number) => {
+    navigate("/?cateId=" + cateId);
+    setActiveIndex(index);
+    revalidator.revalidate();
+  };
 
   return (
     <div className="flex items-center gap-4 max-w-full overflow-x-auto ">
       <div>
-        <Button variant={activeIndex === 0 ? "default" : "secondary"} onClick={() => setActiveIndex(0)}>
+        <Button
+          variant={!cateId ? "default" : "secondary"}
+          onClick={() => handleClick("", 0)}
+        >
           Tất cả
         </Button>
       </div>
@@ -24,8 +44,8 @@ const ListCategory = ({ categories }: { categories: TVideoCategory[] }) => {
         return (
           <div key={category.id}>
             <Button
-              variant={activeIndex === i + 1 ? "default" : "secondary"}
-              onClick={() => setActiveIndex(i + 1)}
+              variant={cateId === category.id ? "default" : "secondary"}
+              onClick={() => handleClick(category.id, i + 1)}
             >
               {category.id} - {category.snippet.title}
             </Button>
@@ -57,11 +77,13 @@ const ListVideoHomePage = ({ videos }: { videos: TVideo[] }) => {
               <ChannelAvatar
                 avatarUrl={video.channel.thumbnails.medium.url}
                 channelId={video.channelId}
-                size={'sm'}
+                size={"sm"}
               />
               <div className="div flex-1 space-y-1">
                 <VideoTitle className="text-sm">{video.title}</VideoTitle>
-                <div className="text-gray-500 text-sm">{video.channel.title}</div>
+                <div className="text-gray-500 text-sm">
+                  {video.channel.title}
+                </div>
                 <div className="videoInfo flex items-center gap-1 text-xs text-gray-500">
                   <div>{video.statistics?.viewCount} lượt xem</div>
                   <div className="dot bg-gray-500 w-1 h-1 rounded-full"></div>

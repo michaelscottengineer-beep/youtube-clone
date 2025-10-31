@@ -15,12 +15,19 @@ export interface HomeLoaderResponse {
   videos: TVideo[];
 }
 
-export default async function homeLoader(): Promise<HomeLoaderResponse> {
+export default async function homeLoader({
+  request,
+}: Args): Promise<HomeLoaderResponse> {
+  const { searchParams } = new URL(request.url);
+const cateId = searchParams.get('cateId');
+
   const categories = await getVideoCategories();
   const { videos } = await getVideos(undefined, {
-    chart: 'mostPopular' 
+    chart: "mostPopular",
+    videoCategoryId: cateId
   });
 
+  console.log("szzzzzs", videos);
   return {
     categories,
     videos,

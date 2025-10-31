@@ -30,7 +30,7 @@ const data: TDrawerTab[] = [
     icon: Home,
     label: "Trang chủ",
     type: "category",
-    goTo: "/",
+    goTo: "/",  
     addonIcon: null,
   },
   {

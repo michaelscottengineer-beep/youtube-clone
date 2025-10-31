@@ -24,7 +24,7 @@ import { FaGoogle } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <div className="flex justify-between py-2 px-4">
+    <div className="flex justify-between py-2 px-4 sticky top-0 bg-white backdrop-blur-2xl">
       <div className="flex items-center">
         <AppDrawer />
         <Link to={"/"}>
